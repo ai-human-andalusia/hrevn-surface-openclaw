@@ -23,6 +23,20 @@ export HREVN_API_BASE_URL="https://api.hrevn.com"
 export HREVN_API_KEY="replace-with-issued-alpha-key"
 ```
 
+## Preflight
+
+Run this first:
+
+```bash
+python3 scripts/hrevn_openclaw_api.py self-test
+```
+
+Expected result:
+- `self_test: ok`
+- `auth: ok`
+- a real `check_id`
+- a real `checked_at`
+
 ## First test
 
 ```bash

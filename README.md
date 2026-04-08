@@ -71,11 +71,13 @@ Machine-readable entry assets:
 
 ```bash
 export HREVN_API_KEY="replace-me"
+python3 scripts/hrevn_openclaw_api.py self-test
 python3 scripts/hrevn_openclaw_api.py baseline-check \
   --input examples/baseline_check_request.json
 ```
 
-The command above should return a real `BaselineResult` from the live managed runtime.
+The preflight should confirm auth and reachability. The baseline check should
+then return a real `BaselineResult` from the live managed runtime.
 
 ## Alpha runtime path
 

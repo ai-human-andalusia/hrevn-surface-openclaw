@@ -31,6 +31,8 @@ def parser() -> argparse.ArgumentParser:
 
     subparsers = root.add_subparsers(dest="command", required=True)
 
+    subparsers.add_parser("self-test")
+
     baseline = subparsers.add_parser("baseline-check")
     baseline.add_argument("--input", required=True)
 
@@ -80,11 +82,51 @@ def get_bytes(base_url: str, api_key: str, path: str) -> bytes:
         return response.read()
 
 
+def self_test_payload() -> object:
+    return {
+        "task_type": "ai_workflow",
+        "profile": "eu_readiness_profile",
+        "record": {
+            "human_oversight": {},
+            "risk_register": {},
+            "evidence_lifecycle": {},
+        },
+        "metadata": {
+            "surface": "openclaw",
+            "source": "self_test",
+        },
+    }
+
+
 def main() -> int:
     args = parser().parse_args()
     api_key = require_key(args.api_key)
 
     try:
+        if args.command == "self-test":
+            result = post_json(
+                args.base_url,
+                api_key,
+                "/v1/baseline-check",
+                self_test_payload(),
+            )
+            print(
+                json.dumps(
+                    {
+                        "self_test": "ok",
+                        "base_url": args.base_url,
+                        "auth": "ok",
+                        "baseline_result": result.get("result"),
+                        "profile_detected": result.get("profile_detected"),
+                        "readiness_level": result.get("readiness_level"),
+                        "check_id": result.get("check_id"),
+                        "checked_at": result.get("checked_at"),
+                    },
+                    indent=2,
+                )
+            )
+            return 0
+
         if args.command == "baseline-check":
             print(
                 json.dumps(
