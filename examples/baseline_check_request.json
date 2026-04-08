@@ -1,0 +1,12 @@
+{
+  "task_type": "ai_workflow",
+  "profile": "eu_readiness_profile",
+  "record": {
+    "human_oversight": {},
+    "risk_register": {},
+    "evidence_lifecycle": {}
+  },
+  "metadata": {
+    "surface": "openclaw"
+  }
+}

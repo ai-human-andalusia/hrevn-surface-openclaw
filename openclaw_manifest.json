@@ -1,0 +1,31 @@
+{
+  "name": "hrevn-surface-openclaw",
+  "surface_type": "agent-first",
+  "managed_api_base_url": "https://api.hrevn.com",
+  "authentication": {
+    "type": "bearer_api_key",
+    "env_var": "HREVN_API_KEY"
+  },
+  "entrypoints": {
+    "baseline_check": {
+      "method": "POST",
+      "path": "/v1/baseline-check",
+      "example_request": "examples/baseline_check_request.json",
+      "example_response": "examples/baseline_check_response.json"
+    },
+    "generate_bundle": {
+      "method": "POST",
+      "path": "/v1/generate-bundle",
+      "example_request": "examples/generate_bundle_request.json"
+    },
+    "verify_bundle": {
+      "method": "POST",
+      "path": "/v1/verify-bundle",
+      "example_request": "examples/verify_bundle_request.json"
+    }
+  },
+  "discovery_docs": [
+    "docs/entry/FOR_AGENTS.md",
+    "docs/integration/MANAGED_API_USAGE.md"
+  ]
+}

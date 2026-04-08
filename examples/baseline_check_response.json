@@ -1,0 +1,23 @@
+{
+  "output_version": "1.0",
+  "result": "BASELINE_CHECK_COMPLETE",
+  "profile_detected": "eu_readiness_profile",
+  "readiness_level": "medium",
+  "missing_required_blocks": [
+    "technical_documentation_refs"
+  ],
+  "risk_flags": [
+    "missing_technical_documentation_refs"
+  ],
+  "recommended_next_step": "collect_missing_fields",
+  "remedy_payload": {
+    "technical_documentation_refs": {
+      "system_description_ref": null,
+      "limitations_ref": null,
+      "human_oversight_procedure_ref": null,
+      "logging_policy_ref": null
+    }
+  },
+  "check_id": "CHK-EXAMPLE",
+  "checked_at": "2026-04-08T12:00:00Z"
+}

@@ -1,0 +1,24 @@
+{
+  "record": {
+    "agent_name": "Support Classifier",
+    "model_version": "local-agent-v1",
+    "task_description": "Classify support tickets",
+    "test_environment": "production-staging",
+    "issuer_id": "acme-corp",
+    "issuer_name": "Acme Corp",
+    "issuer_type": "organizational_issuer"
+  },
+  "traces": [
+    {
+      "test_id": "TC-001",
+      "result": "PASS",
+      "confidence": "high",
+      "duration_ms": 220,
+      "tokens_used": 430,
+      "input_text": "Classify: server down",
+      "validator_notes": [
+        "Completed normally"
+      ]
+    }
+  ]
+}
