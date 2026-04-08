@@ -32,6 +32,7 @@ This surface gathers the OpenClaw-oriented entry documents:
 - Baseline Check as first entry point
 - first-use-case decisions
 - managed-access path
+- a lightweight helper bridge to the live managed runtime
 
 ## What this is not
 - not the HREVN core
@@ -54,6 +55,7 @@ Its job is to make HREVN easier to discover and use in agent-first environments 
 
 See:
 - `docs/integration/MANAGED_API_USAGE.md`
+- `docs/OPENCLAW_ALPHA_TESTING.md`
 
 The OpenClaw surface should expose compact, machine-readable examples against
 the shared HREVN managed API rather than introducing a distinct backend.
@@ -75,6 +77,18 @@ python3 scripts/hrevn_openclaw_api.py baseline-check \
 
 The command above should return a real `BaselineResult` from the live managed runtime.
 
+## Alpha runtime path
+
+Current supported alpha path:
+
+- OpenClaw-oriented repo and manifest
+- local helper
+- `https://api.hrevn.com`
+
+This is intentional. The goal of this surface is to make HREVN easy to
+discover and call from agent-first environments without introducing another
+runtime layer.
+
 ## Recommended first use
 
 Start with `baseline-check` first.
@@ -94,4 +108,6 @@ It does not carry:
 - a separate backend
 
 ## Current status
-This is a thin public OpenClaw surface candidate with a real machine-readable bridge to the live HREVN runtime.
+This is a thin public OpenClaw surface with a real technical alpha testing
+path. It is meant for developers and agent operators who want a lightweight,
+machine-readable bridge to the live HREVN runtime.

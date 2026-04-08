@@ -48,6 +48,7 @@ This surface also includes:
 Minimal usage:
 
 ```bash
+export HREVN_API_BASE_URL="https://api.hrevn.com"
 export HREVN_API_KEY="replace-me"
 python3 scripts/hrevn_openclaw_api.py baseline-check \
   --input examples/baseline_check_request.json
@@ -55,3 +56,6 @@ python3 scripts/hrevn_openclaw_api.py baseline-check \
 
 ## Recommendation
 Keep examples compact and machine-readable so autonomous/local-agent workflows can use them directly.
+
+For the supported technical alpha test flow, see:
+- `docs/OPENCLAW_ALPHA_TESTING.md`
