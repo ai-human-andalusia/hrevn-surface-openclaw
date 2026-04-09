@@ -2,14 +2,33 @@
 
 Thin OpenClaw-facing surface for the live HREVN runtime.
 
-The helper uses only the Python standard library. No extra package install is
-required for the first alpha tests.
+The installable CLI uses only the Python standard library. No extra runtime
+dependencies are required for the first alpha tests.
 
 ## Quick Start
+
+Recommended local-first path:
 
 ```bash
 git clone https://github.com/ai-human-andalusia/hrevn-surface-openclaw
 cd hrevn-surface-openclaw
+pipx install .
+export HREVN_API_BASE_URL="https://api.hrevn.com"
+export HREVN_API_KEY="replace-with-issued-alpha-key"
+hrevn health-check
+hrevn self-test
+hrevn baseline
+```
+
+If `pipx` is not available, you can still install locally with:
+
+```bash
+python3 -m pip install .
+```
+
+If you prefer not to install the CLI yet, the script path still works:
+
+```bash
 export HREVN_API_BASE_URL="https://api.hrevn.com"
 export HREVN_API_KEY="replace-with-issued-alpha-key"
 python3 scripts/hrevn_openclaw_api.py health-check
@@ -46,7 +65,7 @@ execution stops, the next call can resume from the last trusted point instead
 of reconstructing state from scratch.
 
 ## What this surface gives OpenClaw
-- a helper-first bridge to the live HREVN runtime
+- a CLI-first bridge to the live HREVN runtime
 - machine-readable discovery assets for agent-first tooling
 - baseline-first testing before deeper validation or bundle flows
 - a compact way to inspect `missing_required_blocks`, `risk_flags`, and `remedy_payload`
@@ -84,13 +103,15 @@ Live managed endpoint:
 Machine-readable entry assets:
 - `openclaw_manifest.json`
 - `scripts/hrevn_openclaw_api.py`
+- installable CLI via `pyproject.toml`
 
 ## Alpha runtime path
 
 Current supported alpha path:
 
 - OpenClaw-oriented repo and manifest
-- local helper
+- installable CLI first
+- local helper as fallback
 - `https://api.hrevn.com`
 
 This is intentional. The goal of this surface is to make HREVN easy to
@@ -104,10 +125,10 @@ Only move on to bundle generation or verification once the baseline result is un
 
 ## Recommended alpha test sequence
 
-1. `python3 scripts/hrevn_openclaw_api.py health-check`
-2. `python3 scripts/hrevn_openclaw_api.py self-test`
-3. `python3 scripts/hrevn_openclaw_api.py baseline-check --input examples/baseline_check_request.json`
-4. `python3 scripts/hrevn_openclaw_api.py baseline-check --input examples/governance_gap_request.json`
+1. `hrevn health-check`
+2. `hrevn self-test`
+3. `hrevn baseline`
+4. `hrevn governance-gap`
 
 The fourth step matters because it makes the HREVN value more concrete: the
 runtime does not only say pass/fail. It returns structured guidance on what
@@ -119,7 +140,8 @@ This public surface is intentionally thin. It keeps:
 - machine-readable entry docs
 - compact examples
 - the OpenClaw manifest
-- the lightweight API helper
+- an installable local-first CLI
+- the lightweight API helper as compatibility path
 
 It does not carry:
 - internal handoff notes

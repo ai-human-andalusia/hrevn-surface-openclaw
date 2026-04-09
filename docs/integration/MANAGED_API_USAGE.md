@@ -42,29 +42,29 @@ curl -s -X POST "https://api.hrevn.com/v1/baseline-check" \
 ## Local helper for agents
 
 This surface also includes:
+- installable CLI via `pyproject.toml`
 - `scripts/hrevn_openclaw_api.py`
 - `openclaw_manifest.json`
 
 Minimal usage:
 
 ```bash
+pipx install .
 export HREVN_API_BASE_URL="https://api.hrevn.com"
 export HREVN_API_KEY="replace-me"
-python3 scripts/hrevn_openclaw_api.py health-check
-python3 scripts/hrevn_openclaw_api.py self-test
-python3 scripts/hrevn_openclaw_api.py baseline-check \
-  --input examples/baseline_check_request.json
+hrevn health-check
+hrevn self-test
+hrevn baseline
 ```
 
 To surface the governance value more clearly:
 
 ```bash
-python3 scripts/hrevn_openclaw_api.py baseline-check \
-  --input examples/governance_gap_request.json
+hrevn governance-gap
 ```
 
 ## Recommendation
-Keep examples compact and machine-readable so autonomous/local-agent workflows can use them directly.
+Keep examples compact and machine-readable so autonomous/local-agent workflows can use them directly, and prefer the installable CLI for first-run UX.
 
 For the supported technical alpha test flow, see:
 - `docs/OPENCLAW_ALPHA_TESTING.md`

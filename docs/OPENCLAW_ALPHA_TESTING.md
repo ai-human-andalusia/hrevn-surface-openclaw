@@ -14,14 +14,30 @@ OpenClaw-style entry docs -> local helper -> `https://api.hrevn.com`
 
 This is the supported technical alpha path for this surface.
 
-The helper uses only the Python standard library, so the first alpha tests do
-not require extra package installation.
+The CLI uses only the Python standard library, so the first alpha tests do not
+require extra runtime dependencies beyond Python and `pipx`.
 
 ## Setup
+
+Preferred local-first setup:
 
 ```bash
 git clone https://github.com/ai-human-andalusia/hrevn-surface-openclaw
 cd hrevn-surface-openclaw
+pipx install .
+export HREVN_API_BASE_URL="https://api.hrevn.com"
+export HREVN_API_KEY="replace-with-issued-alpha-key"
+```
+
+If `pipx` is not available, a local fallback is:
+
+```bash
+python3 -m pip install .
+```
+
+Fallback script-only setup:
+
+```bash
 export HREVN_API_BASE_URL="https://api.hrevn.com"
 export HREVN_API_KEY="replace-with-issued-alpha-key"
 ```
@@ -31,7 +47,7 @@ export HREVN_API_KEY="replace-with-issued-alpha-key"
 Run this first to separate basic reachability from auth:
 
 ```bash
-python3 scripts/hrevn_openclaw_api.py health-check
+hrevn health-check
 ```
 
 Expected result:
@@ -41,7 +57,7 @@ Expected result:
 Then run auth + runtime validation:
 
 ```bash
-python3 scripts/hrevn_openclaw_api.py self-test
+hrevn self-test
 ```
 
 Expected result:
@@ -54,8 +70,7 @@ Expected result:
 ## First test
 
 ```bash
-python3 scripts/hrevn_openclaw_api.py baseline-check \
-  --input examples/baseline_check_request.json
+hrevn baseline
 ```
 
 Expected result:
@@ -69,8 +84,7 @@ This is the best follow-up test if you want to see why HREVN is useful beyond
 simple pass/fail style output:
 
 ```bash
-python3 scripts/hrevn_openclaw_api.py baseline-check \
-  --input examples/governance_gap_request.json
+hrevn governance-gap
 ```
 
 Expected result:
@@ -82,14 +96,15 @@ Expected result:
 ## What to test next
 
 After the baseline result is understood, you can move on to:
-- `generate-bundle`
-- `verify-bundle`
-- `download-bundle`
+- `hrevn generate-bundle --input examples/generate_bundle_request.json`
+- `hrevn verify-bundle --source /path/to/bundle.zip`
+- `hrevn download-bundle --bundle-id <bundle_id> --output bundle.zip`
 
 ## Important notes
 
 - this is a technical alpha
 - the runtime truth is in the managed API
-- the helper is the supported bridge in this alpha
+- the installable CLI is the preferred bridge in this alpha
+- the helper scripts remain available for compatibility
 - do not commit live API keys into docs or manifests
 - for a compact proof trail, see `docs/ALPHA_EXECUTION_TRACE.md`

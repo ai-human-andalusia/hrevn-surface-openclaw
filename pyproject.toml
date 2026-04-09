@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hrevn-openclaw-cli"
+version = "0.1.0a0"
+description = "HREVN CLI for OpenClaw-style local workflows."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+  { name = "Miguel Herrero", email = "contact@hrevn.com" }
+]
+keywords = ["hrevn", "openclaw", "agents", "workflow-integrity", "auditability"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+[project.urls]
+Homepage = "https://hrevn.com"
+Repository = "https://github.com/ai-human-andalusia/hrevn-surface-openclaw"
+
+[project.scripts]
+hrevn = "hrevn_openclaw_cli.cli:main"
+hrevn-openclaw = "hrevn_openclaw_cli.cli:main"
+hrevn-openclaw-debug = "hrevn_openclaw_cli.network_debug:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
