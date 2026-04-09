@@ -14,23 +14,25 @@ from pathlib import Path
 
 
 DEFAULT_BASE_URL = "https://api.hrevn.com"
+DEFAULT_TIMEOUT = 20
 
 
 def parser() -> argparse.ArgumentParser:
     root = argparse.ArgumentParser(description="Call the HREVN managed API from OpenClaw.")
     root.add_argument(
         "--base-url",
-        default=os.environ.get("HREVN_API_BASE_URL", DEFAULT_BASE_URL),
+        default=env_or_default("HREVN_API_BASE_URL", DEFAULT_BASE_URL),
         help="Managed API base URL.",
     )
     root.add_argument(
         "--api-key",
-        default=os.environ.get("HREVN_API_KEY"),
+        default=env_or_default("HREVN_API_KEY"),
         help="API key. Defaults to HREVN_API_KEY.",
     )
 
     subparsers = root.add_subparsers(dest="command", required=True)
 
+    subparsers.add_parser("health-check")
     subparsers.add_parser("self-test")
 
     baseline = subparsers.add_parser("baseline-check")
@@ -49,19 +51,40 @@ def parser() -> argparse.ArgumentParser:
     return root
 
 
+def env_or_default(name: str, default: str | None = None) -> str | None:
+    value = os.environ.get(name)
+    if value is None:
+        return default
+    value = value.strip()
+    return value or default
+
+
 def require_key(value: str | None) -> str:
     if value:
         return value
-    raise SystemExit("HREVN_API_KEY is required")
+    raise SystemExit("HREVN_API_KEY is required. Run `health-check` first if you only want connectivity.")
+
+
+def normalize_base_url(value: str) -> str:
+    parsed = urllib.parse.urlparse(value)
+    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        raise SystemExit(f"Invalid HREVN_API_BASE_URL/base URL: {value!r}")
+    return value.rstrip("/")
 
 
 def read_json(path: str) -> object:
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
+def get_json(base_url: str, path: str) -> object:
+    request = urllib.request.Request(f"{base_url}{path}")
+    with urllib.request.urlopen(request, timeout=DEFAULT_TIMEOUT) as response:
+        return json.loads(response.read().decode("utf-8"))
+
+
 def post_json(base_url: str, api_key: str, path: str, payload: object) -> object:
     request = urllib.request.Request(
-        f"{base_url.rstrip('/')}{path}",
+        f"{base_url}{path}",
         data=json.dumps(payload).encode("utf-8"),
         method="POST",
         headers={
@@ -69,16 +92,16 @@ def post_json(base_url: str, api_key: str, path: str, payload: object) -> object
             "Content-Type": "application/json",
         },
     )
-    with urllib.request.urlopen(request) as response:
+    with urllib.request.urlopen(request, timeout=DEFAULT_TIMEOUT) as response:
         return json.loads(response.read().decode("utf-8"))
 
 
 def get_bytes(base_url: str, api_key: str, path: str) -> bytes:
     request = urllib.request.Request(
-        f"{base_url.rstrip('/')}{path}",
+        f"{base_url}{path}",
         headers={"Authorization": f"Bearer {api_key}"},
     )
-    with urllib.request.urlopen(request) as response:
+    with urllib.request.urlopen(request, timeout=DEFAULT_TIMEOUT) as response:
         return response.read()
 
 
@@ -100,12 +123,28 @@ def self_test_payload() -> object:
 
 def main() -> int:
     args = parser().parse_args()
-    api_key = require_key(args.api_key)
+    base_url = normalize_base_url(args.base_url)
 
     try:
+        if args.command == "health-check":
+            result = get_json(base_url, "/v1/health")
+            print(
+                json.dumps(
+                    {
+                        "health_check": "ok",
+                        "base_url": base_url,
+                        "status": result.get("status"),
+                    },
+                    indent=2,
+                )
+            )
+            return 0
+
         if args.command == "self-test":
+            api_key = require_key(args.api_key)
+            health = get_json(base_url, "/v1/health")
             result = post_json(
-                args.base_url,
+                base_url,
                 api_key,
                 "/v1/baseline-check",
                 self_test_payload(),
@@ -114,7 +153,8 @@ def main() -> int:
                 json.dumps(
                     {
                         "self_test": "ok",
-                        "base_url": args.base_url,
+                        "base_url": base_url,
+                        "health": health.get("status"),
                         "auth": "ok",
                         "baseline_result": result.get("result"),
                         "profile_detected": result.get("profile_detected"),
@@ -128,10 +168,11 @@ def main() -> int:
             return 0
 
         if args.command == "baseline-check":
+            api_key = require_key(args.api_key)
             print(
                 json.dumps(
                     post_json(
-                        args.base_url,
+                        base_url,
                         api_key,
                         "/v1/baseline-check",
                         read_json(args.input),
@@ -142,10 +183,11 @@ def main() -> int:
             return 0
 
         if args.command == "generate-bundle":
+            api_key = require_key(args.api_key)
             print(
                 json.dumps(
                     post_json(
-                        args.base_url,
+                        base_url,
                         api_key,
                         "/v1/generate-bundle",
                         read_json(args.input),
@@ -156,10 +198,11 @@ def main() -> int:
             return 0
 
         if args.command == "verify-bundle":
+            api_key = require_key(args.api_key)
             print(
                 json.dumps(
                     post_json(
-                        args.base_url,
+                        base_url,
                         api_key,
                         "/v1/verify-bundle",
                         {"source": args.source},
@@ -170,8 +213,9 @@ def main() -> int:
             return 0
 
         if args.command == "download-bundle":
+            api_key = require_key(args.api_key)
             bundle = get_bytes(
-                args.base_url,
+                base_url,
                 api_key,
                 f"/v1/bundles/{urllib.parse.quote(args.bundle_id)}/download",
             )
@@ -184,7 +228,10 @@ def main() -> int:
 
     except urllib.error.HTTPError as exc:
         detail = exc.read().decode("utf-8", errors="replace")
-        print(f"HREVN managed API error {exc.code}: {detail}", file=sys.stderr)
+        if exc.code in {401, 403}:
+            print(f"HREVN managed API authentication failed ({exc.code}): {detail}", file=sys.stderr)
+        else:
+            print(f"HREVN managed API error {exc.code}: {detail}", file=sys.stderr)
         return 1
     except urllib.error.URLError as exc:
         print(f"HREVN managed API connection failed: {exc}", file=sys.stderr)

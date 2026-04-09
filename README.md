@@ -1,6 +1,25 @@
-# HREVN OpenClaw Surface
+# HREVN for OpenClaw - Verifiable Workflow State for Agent-First Flows
 
-Machine-readable and agent-first entry surface for HREVN.
+Thin OpenClaw-facing surface for the live HREVN runtime.
+
+The helper uses only the Python standard library. No extra package install is
+required for the first alpha tests.
+
+## Quick Start
+
+```bash
+git clone https://github.com/ai-human-andalusia/hrevn-surface-openclaw
+cd hrevn-surface-openclaw
+export HREVN_API_BASE_URL="https://api.hrevn.com"
+export HREVN_API_KEY="replace-with-issued-alpha-key"
+python3 scripts/hrevn_openclaw_api.py health-check
+python3 scripts/hrevn_openclaw_api.py self-test
+python3 scripts/hrevn_openclaw_api.py baseline-check \
+  --input examples/baseline_check_request.json
+```
+
+If the first test works, you should see a real `BaselineResult` from the live
+managed runtime, including a real `check_id` and `checked_at`.
 
 ## Why HREVN
 
@@ -26,13 +45,11 @@ OpenClaw gives agent-first workflows a verifiable action trail, so when
 execution stops, the next call can resume from the last trusted point instead
 of reconstructing state from scratch.
 
-## Purpose
-This surface gathers the OpenClaw-oriented entry documents:
-- machine-readable orientation for agents and integrators
-- Baseline Check as first entry point
-- first-use-case decisions
-- managed-access path
-- a lightweight helper bridge to the live managed runtime
+## What this surface gives OpenClaw
+- a helper-first bridge to the live HREVN runtime
+- machine-readable discovery assets for agent-first tooling
+- baseline-first testing before deeper validation or bundle flows
+- a compact way to inspect `missing_required_blocks`, `risk_flags`, and `remedy_payload`
 
 ## What this is not
 - not the HREVN core
@@ -56,6 +73,7 @@ Its job is to make HREVN easier to discover and use in agent-first environments 
 See:
 - `docs/integration/MANAGED_API_USAGE.md`
 - `docs/OPENCLAW_ALPHA_TESTING.md`
+- `docs/ALPHA_EXECUTION_TRACE.md`
 
 The OpenClaw surface should expose compact, machine-readable examples against
 the shared HREVN managed API rather than introducing a distinct backend.
@@ -66,18 +84,6 @@ Live managed endpoint:
 Machine-readable entry assets:
 - `openclaw_manifest.json`
 - `scripts/hrevn_openclaw_api.py`
-
-## Quick Start
-
-```bash
-export HREVN_API_KEY="replace-me"
-python3 scripts/hrevn_openclaw_api.py self-test
-python3 scripts/hrevn_openclaw_api.py baseline-check \
-  --input examples/baseline_check_request.json
-```
-
-The preflight should confirm auth and reachability. The baseline check should
-then return a real `BaselineResult` from the live managed runtime.
 
 ## Alpha runtime path
 
@@ -95,6 +101,17 @@ runtime layer.
 
 Start with `baseline-check` first.
 Only move on to bundle generation or verification once the baseline result is understood and the workflow profile is clear.
+
+## Recommended alpha test sequence
+
+1. `python3 scripts/hrevn_openclaw_api.py health-check`
+2. `python3 scripts/hrevn_openclaw_api.py self-test`
+3. `python3 scripts/hrevn_openclaw_api.py baseline-check --input examples/baseline_check_request.json`
+4. `python3 scripts/hrevn_openclaw_api.py baseline-check --input examples/governance_gap_request.json`
+
+The fourth step matters because it makes the HREVN value more concrete: the
+runtime does not only say pass/fail. It returns structured guidance on what
+governance evidence is still missing.
 
 ## Public cut
 

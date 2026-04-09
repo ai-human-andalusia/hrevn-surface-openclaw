@@ -1,0 +1,9 @@
+{
+  "task_type": "ai_workflow",
+  "profile": "eu_readiness_profile",
+  "record": {},
+  "metadata": {
+    "surface": "openclaw",
+    "example": "governance_gap"
+  }
+}

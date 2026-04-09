@@ -13,6 +13,12 @@
       "example_request": "examples/baseline_check_request.json",
       "example_response": "examples/baseline_check_response.json"
     },
+    "governance_gap_demo": {
+      "method": "POST",
+      "path": "/v1/baseline-check",
+      "example_request": "examples/governance_gap_request.json",
+      "example_response": "examples/governance_gap_response.json"
+    },
     "generate_bundle": {
       "method": "POST",
       "path": "/v1/generate-bundle",
@@ -22,10 +28,16 @@
       "method": "POST",
       "path": "/v1/verify-bundle",
       "example_request": "examples/verify_bundle_request.json"
+    },
+    "download_bundle": {
+      "method": "GET",
+      "path": "/v1/bundles/{bundle_id}/download"
     }
   },
   "discovery_docs": [
     "docs/entry/FOR_AGENTS.md",
-    "docs/integration/MANAGED_API_USAGE.md"
+    "docs/integration/MANAGED_API_USAGE.md",
+    "docs/OPENCLAW_ALPHA_TESTING.md",
+    "docs/ALPHA_EXECUTION_TRACE.md"
   ]
 }

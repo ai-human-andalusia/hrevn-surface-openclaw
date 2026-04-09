@@ -1,0 +1,41 @@
+{
+  "output_version": "1.0",
+  "result": "BASELINE_CHECK_COMPLETE",
+  "profile_detected": "eu_readiness_profile",
+  "readiness_level": "low",
+  "missing_required_blocks": [
+    "human_oversight",
+    "risk_register",
+    "evidence_lifecycle",
+    "technical_documentation_refs"
+  ],
+  "risk_flags": [
+    "missing_human_oversight",
+    "missing_risk_register",
+    "missing_evidence_lifecycle",
+    "missing_technical_documentation_refs"
+  ],
+  "recommended_next_step": "collect_missing_fields",
+  "remedy_payload": {
+    "human_oversight": {
+      "review_owner": null,
+      "approval_mode": null
+    },
+    "risk_register": {
+      "risk_owner": null,
+      "risk_summary": null
+    },
+    "evidence_lifecycle": {
+      "retention_policy_ref": null,
+      "bundle_storage_ref": null
+    },
+    "technical_documentation_refs": {
+      "system_description_ref": null,
+      "limitations_ref": null,
+      "human_oversight_procedure_ref": null,
+      "logging_policy_ref": null
+    }
+  },
+  "check_id": "CHK-GAP-EXAMPLE",
+  "checked_at": "2026-04-09T10:00:00Z"
+}
