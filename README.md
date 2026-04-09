@@ -5,19 +5,29 @@ Thin OpenClaw-facing surface for the live HREVN runtime.
 The installable CLI uses only the Python standard library. No extra runtime
 dependencies are required for the first alpha tests.
 
+Public package:
+
+- `https://pypi.org/project/hrevn-openclaw-cli/`
+
 ## Quick Start
 
 Recommended local-first path:
 
 ```bash
-git clone https://github.com/ai-human-andalusia/hrevn-surface-openclaw
-cd hrevn-surface-openclaw
-pipx install .
+pipx install hrevn-openclaw-cli
 export HREVN_API_BASE_URL="https://api.hrevn.com"
 export HREVN_API_KEY="replace-with-issued-alpha-key"
 hrevn health-check
 hrevn self-test
 hrevn baseline
+```
+
+If you want the local repo version instead, use:
+
+```bash
+git clone https://github.com/ai-human-andalusia/hrevn-surface-openclaw
+cd hrevn-surface-openclaw
+pipx install .
 ```
 
 If `pipx` is not available, you can still install locally with:
@@ -103,7 +113,7 @@ Live managed endpoint:
 Machine-readable entry assets:
 - `openclaw_manifest.json`
 - `scripts/hrevn_openclaw_api.py`
-- installable CLI via `pyproject.toml`
+- installable CLI via PyPI and `pyproject.toml`
 
 ## Alpha runtime path
 

@@ -42,14 +42,14 @@ curl -s -X POST "https://api.hrevn.com/v1/baseline-check" \
 ## Local helper for agents
 
 This surface also includes:
-- installable CLI via `pyproject.toml`
+- installable CLI published at `https://pypi.org/project/hrevn-openclaw-cli/`
 - `scripts/hrevn_openclaw_api.py`
 - `openclaw_manifest.json`
 
 Minimal usage:
 
 ```bash
-pipx install .
+pipx install hrevn-openclaw-cli
 export HREVN_API_BASE_URL="https://api.hrevn.com"
 export HREVN_API_KEY="replace-me"
 hrevn health-check

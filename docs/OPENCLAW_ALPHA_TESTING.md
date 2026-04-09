@@ -17,16 +17,26 @@ This is the supported technical alpha path for this surface.
 The CLI uses only the Python standard library, so the first alpha tests do not
 require extra runtime dependencies beyond Python and `pipx`.
 
+Public package:
+
+- `https://pypi.org/project/hrevn-openclaw-cli/`
+
 ## Setup
 
 Preferred local-first setup:
 
 ```bash
+pipx install hrevn-openclaw-cli
+export HREVN_API_BASE_URL="https://api.hrevn.com"
+export HREVN_API_KEY="replace-with-issued-alpha-key"
+```
+
+If you want to test from the repo checkout instead, use:
+
+```bash
 git clone https://github.com/ai-human-andalusia/hrevn-surface-openclaw
 cd hrevn-surface-openclaw
 pipx install .
-export HREVN_API_BASE_URL="https://api.hrevn.com"
-export HREVN_API_KEY="replace-with-issued-alpha-key"
 ```
 
 If `pipx` is not available, a local fallback is:
@@ -104,7 +114,7 @@ After the baseline result is understood, you can move on to:
 
 - this is a technical alpha
 - the runtime truth is in the managed API
-- the installable CLI is the preferred bridge in this alpha
+- the PyPI-distributed CLI is the preferred bridge in this alpha
 - the helper scripts remain available for compatibility
 - do not commit live API keys into docs or manifests
 - for a compact proof trail, see `docs/ALPHA_EXECUTION_TRACE.md`
