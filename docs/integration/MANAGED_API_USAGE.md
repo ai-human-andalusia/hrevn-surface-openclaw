@@ -1,7 +1,8 @@
 # HREVN OpenClaw -> Managed API
 
 ## Goal
-Give OpenClaw-native users a direct, machine-readable way to call the HREVN backend.
+Give OpenClaw-native users a direct, machine-readable way to call the HREVN
+backend and recover from interruption without blind workflow restart.
 
 ## Entry rule
 OpenClaw uses the same managed API as:
@@ -64,7 +65,14 @@ hrevn governance-gap
 ```
 
 ## Recommendation
-Keep examples compact and machine-readable so autonomous/local-agent workflows can use them directly, and prefer the installable CLI for first-run UX.
+Keep examples compact and machine-readable so autonomous/local-agent workflows
+can use them directly, and prefer the installable CLI for first-run UX.
+
+For OpenClaw, the key message is:
+
+- resume from a verified point after interruption
+- avoid re-running costly external calls too early
+- preserve a verifiable record of what happened
 
 For the supported technical alpha test flow, see:
 - `docs/OPENCLAW_ALPHA_TESTING.md`

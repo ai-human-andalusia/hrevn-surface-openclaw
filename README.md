@@ -1,4 +1,4 @@
-# HREVN for OpenClaw - Verifiable Workflow State for Agent-First Flows
+# HREVN for OpenClaw - Verified Resume for Agent-First Workflows
 
 Thin OpenClaw-facing surface for the live HREVN runtime.
 
@@ -52,30 +52,33 @@ managed runtime, including a real `check_id` and `checked_at`.
 
 ## Why HREVN
 
-AI agents and multi-step workflows fail in ambiguous ways. When a sequence is
-interrupted, neither the user nor the system can always determine with
-certainty what completed, what failed mid-execution, and where work can safely
-resume. Without a verifiable record, context is reconstructed from memory or
-chat history, wasting tokens, repeating work, and leaving no reliable trail.
+OpenClaw-style workflows are often local-first, but they still break in costly
+ways. A task can stop after partial execution, after calling external APIs, or
+after building up context that is tedious to reconstruct. The problem is not
+only cloud token spend. The real problem is that a broken workflow often forces
+you to repeat steps you did not need to repeat.
 
-HREVN adds a structured evidence layer: baseline checks before consequential
-steps, tamper-evident receipts after execution, and manifests that allow
-workflows to continue from the last verified point rather than restarting from
-scratch.
+HREVN helps OpenClaw workflows resume from a verified point after interruption.
+Instead of guessing from memory or chat history, the workflow gets a structured
+result that shows what happened, what is still missing, and what needs to be
+corrected before moving on.
+
+That matters in three layers:
+
+1. verified resume for interrupted workflows
+2. avoiding re-running costly external calls or tool steps
+3. preserving a verifiable record of what happened and under what authority
 
 For teams operating in regulated or high-stakes environments, HREVN also
 supports evidentiary discipline: structured records of what ran, under what
-authority, and when it stopped. This is particularly relevant for AI systems
-that may fall within EU regulatory timelines in 2026 and beyond. HREVN does
-not make a system legally compliant, but it provides structured, verifiable
-evidence that compliance, audit, and governance processes can use.
-
-OpenClaw gives agent-first workflows a verifiable action trail, so when
-execution stops, the next call can resume from the last trusted point instead
-of reconstructing state from scratch.
+authority, and when it stopped. HREVN does not make a system legally compliant,
+but it provides structured, verifiable evidence that compliance, audit, and
+governance processes can use.
 
 ## What this surface gives OpenClaw
 - a CLI-first bridge to the live HREVN runtime
+- a verified-resume path for interrupted agent workflows
+- a way to avoid re-running costly external calls unnecessarily
 - machine-readable discovery assets for agent-first tooling
 - baseline-first testing before deeper validation or bundle flows
 - a compact way to inspect `missing_required_blocks`, `risk_flags`, and `remedy_payload`
@@ -95,7 +98,10 @@ This surface consumes the canonical HREVN core through the managed runtime and e
 ## Direction
 OpenClaw is now treated as a dedicated public-facing surface candidate.
 
-Its job is to make HREVN easier to discover and use in agent-first environments while still calling the same managed API as the other public surfaces.
+Its job is to make HREVN easier to discover and use in agent-first environments
+where local orchestration may still trigger costly external work. The point is
+not only to save cloud spend, but to preserve a trustworthy resume point and
+avoid re-running steps that did not need to be repeated.
 
 ## Managed Runtime Bridge
 
@@ -161,4 +167,5 @@ It does not carry:
 ## Current status
 This is a thin public OpenClaw surface with a real technical alpha testing
 path. It is meant for developers and agent operators who want a lightweight,
-machine-readable bridge to the live HREVN runtime.
+machine-readable bridge to the live HREVN runtime, especially for local-first
+workflows that need a verified resume point after interruption.

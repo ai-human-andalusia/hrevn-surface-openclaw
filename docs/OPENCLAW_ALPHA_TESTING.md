@@ -88,6 +88,12 @@ Expected result:
 - returned from the live managed runtime
 - not a mock and not a textual explanation
 
+For OpenClaw specifically, read that result as a workflow continuity signal:
+
+- where the local-orchestrated workflow can safely resume
+- which blocks are still missing
+- whether repeating external calls would be premature
+
 ## Governance gap demo
 
 This is the best follow-up test if you want to see why HREVN is useful beyond
@@ -103,6 +109,10 @@ Expected result:
 - `recommended_next_step`
 - `remedy_payload`
 
+This is also the point where OpenClaw's fit becomes clearer. The goal is not
+just "save tokens". The goal is to avoid re-running costly external steps in a
+workflow that already has a partially known state.
+
 ## What to test next
 
 After the baseline result is understood, you can move on to:
@@ -116,5 +126,6 @@ After the baseline result is understood, you can move on to:
 - the runtime truth is in the managed API
 - the PyPI-distributed CLI is the preferred bridge in this alpha
 - the helper scripts remain available for compatibility
+- the main value for OpenClaw is verified resume, not a cloud-cost pitch
 - do not commit live API keys into docs or manifests
 - for a compact proof trail, see `docs/ALPHA_EXECUTION_TRACE.md`
