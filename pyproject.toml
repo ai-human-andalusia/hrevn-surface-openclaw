@@ -27,7 +27,7 @@ classifiers = [
 
 [project.urls]
 Homepage = "https://hrevn.com"
-Repository = "https://github.com/ai-human-andalusia/hrevn-surface-openclaw"
+Repository = "https://github.com/miguel-herrero-systems/hrevn-surface-openclaw"
 
 [project.scripts]
 hrevn = "hrevn_openclaw_cli.cli:main"

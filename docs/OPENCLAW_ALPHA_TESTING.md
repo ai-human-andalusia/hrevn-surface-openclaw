@@ -2,7 +2,7 @@
 
 ## Public repo
 
-- `https://github.com/ai-human-andalusia/hrevn-surface-openclaw`
+- `https://github.com/miguel-herrero-systems/hrevn-surface-openclaw`
 
 ## Live backend
 
@@ -34,7 +34,7 @@ export HREVN_API_KEY="replace-with-issued-alpha-key"
 If you want to test from the repo checkout instead, use:
 
 ```bash
-git clone https://github.com/ai-human-andalusia/hrevn-surface-openclaw
+git clone https://github.com/miguel-herrero-systems/hrevn-surface-openclaw
 cd hrevn-surface-openclaw
 pipx install .
 ```

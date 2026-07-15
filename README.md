@@ -25,7 +25,7 @@ hrevn baseline
 If you want the local repo version instead, use:
 
 ```bash
-git clone https://github.com/ai-human-andalusia/hrevn-surface-openclaw
+git clone https://github.com/miguel-herrero-systems/hrevn-surface-openclaw
 cd hrevn-surface-openclaw
 pipx install .
 ```
